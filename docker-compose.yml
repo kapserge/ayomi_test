@@ -1,0 +1,42 @@
+version: "3.11"
+
+services:
+ db:
+  image: postgres:13.2
+  container_name: postgres
+  restart: always
+  environment:
+    - POSTGRES_USER=hello_fastapi
+    - POSTGRES_PASSWORD=hello_fastapi
+    - POSTGRES_DB=hello_fastapi_dev
+    - DATABASE_HOSTNAME=postgres
+  ports:
+    - "5433:5433"
+  volumes:
+   - ./data:/var/lib/postgresql/data
+
+ app:
+  build: .
+  container_name: fastapi
+  restart: always
+  ports:
+    - "8002:8000"
+  depends_on:
+    - db
+  volumes:
+    - .:/app
+  command: uvicorn app.main:app --reload --workers 1 --host  0.0.0.0
+
+ react-docker:
+  container_name: react-calculpolo
+  build:
+    context: ./React/calculpolo
+  ports:
+    - "3000:3000"
+  # stdin_open: true
+  volumes:
+    - .:/calculpolo
+    
+networks:
+  default:
+      name: hello_fastapi

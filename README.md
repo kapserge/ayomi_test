@@ -4,8 +4,10 @@ This project is  app to NPI calcul with Python FastAPI backend and React Fronten
 
 ## Build the Docker compose
 ```bash
-# Only work on UNIX (Mac/Linux) systems!
-docker-compose build 
+
+docker-compose build
+docker-compose up
+
 ```
 
 Navigate to  http://localhost:8002/docs  for FastApi
